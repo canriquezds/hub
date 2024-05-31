@@ -2,6 +2,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react'
+import Image from 'next/image';
 
 import React, { useState } from 'react'
 
@@ -9,6 +10,7 @@ export default function Input() {
   const {data: session } = useSession();
   const [content, setContent] = useState("");
   const [summary, setSummary] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fulcrumDomain = process.env.NEXT_PUBLIC_FULCRUM_DOMAIN;
   const apiToken = process.env.NEXT_PUBLIC_FULCRUM_API_TOKEN || 'will_not_work';
@@ -20,7 +22,9 @@ export default function Input() {
   }
 
   const handleSubmit = () => {
-    setSummary('...');
+    setSummary('');
+    setLoading(true);
+
     const prompt = `You are a expert copy writer on technical sw development blogposts.
       Produce a summary of this blogpost in no more than 2 sentences. Make it serious and informative to make it easy
       for readers to understand the content: 
@@ -45,6 +49,7 @@ export default function Input() {
         return res.json()})
       .then((data) => {
         const response = data.candidates[0].content.parts[0].text;
+        setLoading(false);
         setSummary(response);
       })
   }
@@ -67,6 +72,7 @@ export default function Input() {
           </button>
         </div>
         <div>
+          {loading && <Image src="/assets/loader.gif" width={100} height={100} alt="Loading" />}
           {summary}
         </div>
       </div>
