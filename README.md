@@ -13,7 +13,27 @@ Fulcrum Engineering Hub aims to boost both writing and reading activities among 
 
 ### Getting Started
 
-To get started with Fulcrum Engineering Hub, please refer to our [installation guide](link-to-installation-guide) and [user documentation](link-to-user-documentation).
+### Steps to Run the Rails Application
+
+1. **Build and Run Containers**:
+    ```sh
+    docker-compose up --build
+    ```
+
+2. **Install Gems**:
+    ```sh
+    docker-compose run web bundle install
+    ```
+
+3. **Create and Migrate Database**:
+    ```sh
+    docker-compose run web rails db:create db:migrate
+    ```
+
+4. **Access the Application**:
+    - The Rails server will be accessible at `http://localhost:4000`.
+
+
 
 ### Contributing
 
