@@ -20,6 +20,9 @@ RUN bundle install
 # Copy the main application
 COPY . ./
 
+# Ensure proper ownership and permissions
+RUN chown -R 1000:1000 $RAILS_ROOT
+
 # Expose port 3000 to the Docker host, so we can access it from the outside
 EXPOSE 4000
 

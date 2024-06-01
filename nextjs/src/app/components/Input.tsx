@@ -25,10 +25,13 @@ export default function Input() {
     setSummary('');
     setLoading(true);
 
-    const prompt = `You are a expert copy writer on technical sw development blogposts.
-      Produce a summary of this blogpost in no more than 2 sentences. Make it serious and informative to make it easy
-      for readers to understand the content: 
-      """ ${content} """`;
+    const prompt = `You are a expert copy writer on technical software development blogposts.
+      Produce a summary of this blogpost in no more than 2 sentences. If some unrelated content is included
+      is introduced or too short to understand, explain the user that there is not
+      enough copy to produce a clear summary. When the input is the correct one, 
+      Make it serious and informative to make it easy
+      for readers to understand the content below: 
+      """ ${content} """.`;
 
     fetch(`https://${fulcrumDomain}/api/v2/llm/generate`, {
       method: "POST",
@@ -52,6 +55,11 @@ export default function Input() {
         setLoading(false);
         setSummary(response);
       })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Something went wrong... try again later');
+        setLoading(false);
+      });
   }
 
   return (
@@ -63,16 +71,16 @@ export default function Input() {
           placeholder='Paste your documentation here' rows={8}
           onChange={handleContentChange}
         ></textarea>
-        <div className='flex items-center justify-between pt-2.5'>
+        <div className='flex items-center justify-start p-2.5'>
           <button
             onClick={ handleSubmit }
-            disabled={!content}
+            disabled={!content || loading}
             className='bg-blue-400 text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:brigthness-95 disabled:opacity-50'>
             Post
           </button>
+          {loading && <Image src="/assets/loader.gif" width={35} height={35} alt="Loading" />}
         </div>
         <div>
-          {loading && <Image src="/assets/loader.gif" width={100} height={100} alt="Loading" />}
           {summary}
         </div>
       </div>

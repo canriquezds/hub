@@ -13,13 +13,14 @@ services:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
     volumes:
-      - .:/var/www/my_rails_app
+      - .:/var/www/rails-api:cached
     ports:
       - "4000:3000"
     depends_on:
       - db
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/my_rails_app_development
+    user: "1000:1000"
 
 volumes:
   postgres_data:
