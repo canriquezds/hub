@@ -16,10 +16,9 @@ export default function Sidebar() {
   return (
     <div className='flex flex-col p-3 justify-between h-screen'>
       <div className='flex flex-col gap-4 p-3'>
-        <Image src="/assets/fulcrum_logo.png" width={165} height={44} alt="Loading" />
         <div className='flex items-center justify-start'>
           <Link href='/' className='flex items-center p-3 hover:bg-gray-100 rounded-full transition-all duration-200 gap-2 w-fit'>
-            <HiHome className='w-7 h-7' />
+            <Image src="/assets/fulcrum_icon.png" width={30} height={30} alt="Loading" />
             <span className='font-bold hidden xl:inline'>Home</span>
           </Link>
         </div>
