@@ -29,7 +29,8 @@ export default function Input() {
       Produce a summary of this blogpost in no more than 2 sentences. If some unrelated content is included
       is introduced or too short to understand, explain the user that there is not
       enough copy to produce a clear summary. When the input is the correct one, 
-      Make it serious and informative to make it easy
+      make sure to mention the author (if possible) 
+      Make the summary serious, and informative to make it easy
       for readers to understand the content below: 
       """ ${content} """.`;
 
@@ -68,7 +69,7 @@ export default function Input() {
       <div className='w-full divide-y divide-gray-200 '>
         <textarea
           className='w-full border-none outline-none tracking-wide min-h-[50px] text-gray-700'
-          placeholder='Paste your documentation here' rows={8}
+          placeholder='Paste your documentation here so..' rows={8}
           onChange={handleContentChange}
         ></textarea>
         <div className='flex items-center justify-start p-2.5'>

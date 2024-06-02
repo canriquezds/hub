@@ -4,12 +4,13 @@ import Input from './components/Input'
 import { TbServerBolt, TbServerOff } from 'react-icons/tb';
 
 export default function page() {
+  const SERVER_PROBE = process.env.NEXT_PUBLIC_RAILS_BACKEND_PROBE;
   const [backendAlive, setBackendAlive] = useState<boolean>(false);
   
   useEffect(() => {
     const checkBackendStatus = async () => {
       try {
-        const response = await fetch('http://localhost:4000/up');
+        const response = await fetch(`http://${SERVER_PROBE}`);
         if (response.ok) {
           setBackendAlive(true);
         } else {
