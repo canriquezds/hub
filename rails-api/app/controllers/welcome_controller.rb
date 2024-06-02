@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
   def index
-    render json: { message: "Hello, world!" }
+    render json: { message: "Hello, World! This is Working." }
   end
 end

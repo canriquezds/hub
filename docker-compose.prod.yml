@@ -8,6 +8,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: my_rails_app_production
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
     ports:
       - "5432:5432"
 
@@ -20,8 +22,11 @@ services:
       - "4000:3000"
     depends_on:
       - db
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
-
+    command: >
+      bash -c "rm -f tmp/pids/server.pid &&
+            bundle exec rails db:create db:migrate &&
+            bundle exec rails s -b '0.0.0.0' -e production"
+  
   nextjs:
     build:
       context: ./nextjs

@@ -24,7 +24,7 @@ COPY . ./
 RUN chown -R 1000:1000 $RAILS_ROOT
 
 # Expose port 3000 to the Docker host, so we can access it from the outside
-EXPOSE 4000
+EXPOSE 3000
 
 # The command to run the Rails server
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -e ${RAILS_ENV}"]
