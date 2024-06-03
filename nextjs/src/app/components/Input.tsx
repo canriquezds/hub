@@ -29,7 +29,7 @@ export default function Input() {
       Produce a summary of this blogpost in no more than 2 sentences. If some unrelated content is included
       is introduced or too short to understand, explain the user that there is not
       enough copy to produce a clear summary. When the input is the correct one, 
-      make sure to mention the author (if possible) 
+      make sure to mention the exact author usernames (if possible) 
       Make the summary serious, and informative to make it easy
       for readers to understand the content below: 
       """ ${content} """.`;

@@ -1,34 +1,41 @@
-require 'google-id-token'
+require 'googleauth'
 
 class GoogleTokenVerifier
   def initialize(app)
     @app = app
-    # path to exclude from verification
     @excluded_paths = ['/up', '/welcome/index']
   end
 
   def call(env)
     request = Rack::Request.new(env)
     if @excluded_paths.include?(request.path)
+      return @app.call(env)
+    end
+
+    auth_header = request.get_header('HTTP_AUTHORIZATION')
+    unless auth_header
+      return unauthorized_response
+    end
+
+    token = auth_header.split(' ').last
+
+    begin
+      payload = verify_token(token)
+      puts "response payload: #{payload.inspect}"
+      env['google_user'] = payload
       @app.call(env)
-    else
-      auth_header = request.get_header('HTTP_AUTHORIZATION')
-      return unauthorized_response unless auth_header
-
-      token = auth_header.split(' ').last
-      validator = GoogleIDToken::Validator.new
-
-      begin
-        payload = validator.check(token, ENV['GOOGLE_CLIENT_ID'])
-        env['google_user_id'] = payload['sub']
-        @app.call(env)
-      rescue GoogleIDToken::ValidationError => e
-        unauthorized_response
-      end
+    rescue Google::Auth::IDTokens::VerificationError
+      unauthorized_response
     end
   end
 
   private
+
+  def verify_token(token)
+    client_id = ENV['GOOGLE_CLIENT_ID']
+    puts "verifying token with client ID: #{client_id}"
+    Google::Auth::IDTokens.verify_oidc(token, aud: client_id)
+  end
 
   def unauthorized_response
     [401, { 'Content-Type' => 'application/json' }, [{ error: 'Unauthorized' }.to_json]]

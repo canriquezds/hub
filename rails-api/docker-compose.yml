@@ -8,8 +8,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: my_rails_app_development
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
 
   web:
     build: .
@@ -22,6 +20,8 @@ services:
       - db
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/my_rails_app_development
+    env_file:
+      - .env
     user: "1000:1000"
 
 volumes:

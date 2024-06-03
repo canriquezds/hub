@@ -6,12 +6,26 @@ import { Session } from "next-auth";
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import { HiHome, HiDotsHorizontal } from "react-icons/hi";
+import { HiHome, HiDotsHorizontal } from 'react-icons/hi';
+import { signInToBackend } from '../api/rails-app/api'
 
 
 export default function Sidebar() {
   const [backendAlive, setBackendAlive] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
+
+  useEffect(() => {
+    if (session && session.id_token) {
+      console.log('Attempt signin with id token:', session)
+      signInToBackend(session.id_token)
+        .then(data => {
+          console.log('Signed in to backend:', data);
+        })
+        .catch(error => {
+          console.error('Error signing in to backend:', error);
+        });
+    }
+  }, [session]);
 
   return (
     <div className='flex flex-col p-3 justify-between h-screen'>
