@@ -8,7 +8,7 @@ interface FeedProps {
 
 const Feed: React.FC<FeedProps> = ({ posts, updatePosts }) => {
   if (!posts.length) {
-    return <div>Nothing to see here..</div>;
+    return <div>..</div>;
   } else {
     console.log('posts: ', posts);
   }
