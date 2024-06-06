@@ -25,8 +25,6 @@ Environment Variables
 Create a .env file at the root of your project directory with the following content:
 
 ```
-dotenv
-
 # Shared environment variables
 GOOGLE_CLIENT_ID=<from google cloud project>
 GOOGLE_CLIENT_SECRET=<from google cloud project>
@@ -40,54 +38,46 @@ NEXT_PUBLIC_FULCRUM_DOMAIN=churles.thefulcrum.team
 NEXT_PUBLIC_FULCRUM_API_TOKEN=<fulcrum app api token to run llm>
 NEXT_PUBLIC_RAILS_BACKEND=localhost:4000
 NEXT_PUBLIC_RAILS_BACKEND_PROBE=localhost:4000/up
-Replace the placeholder values with your actual credentials and tokens.
+
 ```
 
 ### Steps to Start the Application
 
-Clone the Repository
-
-Clone your project repository to your local machine.
-
-Navigate to the Project Directory
+Clone your project repository to your local machine. Navigate to the Project Directory
 
 ```
-sh
-
 cd your-project-directory
 ```
 
-Create the .env File
-
 Create a .env file in the root of your project directory and add the environment variables as shown above.
 
-Build and Start the Docker Containers
+### Build and Start the Docker Containers
 
 Run the following command to build and start the containers:
 
 ```
-sh
-
-docker-compose up -d
+docker-compose up --build
 ```
 
-Check the Status of the Containers
+to stop the containers
+
+```
+docker-compose down
+```
+
+### Check the Status of the Containers
 
 You can check the status of the running containers using:
 
 ```
-sh
-
 docker-compose ps
 ```
 
 ### Run Database Migrations and Seed the Database
 
-To run the database migrations and seed the database, execute:
+After containers are up, run the database migrations and seed the database, execute:
 
 ```
-sh
-
 docker-compose exec rails-api bash -c "bundle exec rails db:seed"
 ```
 
