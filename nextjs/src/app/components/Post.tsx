@@ -4,13 +4,15 @@ import IconActions from './IconActions';
 import { HiDotsHorizontal } from 'react-icons/hi';
 
 
+type Post = {
+  id: number;
+  content: string,
+  metadata: Record<string, any>,
+  liked_by_current_user: boolean
+  creation_date: string;
+};
 interface PostProps {
-  post: {
-    id: number;
-    content: string,
-    metadata: Record<string, any>,
-    liked_by_current_user: boolean
-  };
+  post: Post;
   id: number;
   updatePosts: () => void;
 }
@@ -48,6 +50,14 @@ const GitHubAuthors: React.FC<Props> = ({ post }) => {
   );
 };
 
+import { format, parseISO } from 'date-fns';
+
+export function formatCreationDate(dateString: string) {
+  const date = parseISO(dateString);
+  return format(date, "MMMM do, yyyy");
+}
+
+
 
 const Post: React.FC<PostProps> = ({ post, id, updatePosts }) => {
   return (
@@ -68,11 +78,16 @@ const Post: React.FC<PostProps> = ({ post, id, updatePosts }) => {
         <Link href={'/posts/${id}'}>
             <p className='text-gray-800 text-sm my-3'>{post?.metadata?.summary}</p>
         </Link>
-        <IconActions
-          id={id}
-          isLikedByUser={post.liked_by_current_user}
-          refresh={updatePosts}
-        />
+        <div className='flex items-center justify-between'>
+          <IconActions
+            id={id}
+            isLikedByUser={post.liked_by_current_user}
+            refresh={updatePosts}
+          />
+          <div className='text-xs italic text-gray-400'>
+            {formatCreationDate(post.creation_date)}
+          </div>
+        </div>
       </div>
     </div>
   );
