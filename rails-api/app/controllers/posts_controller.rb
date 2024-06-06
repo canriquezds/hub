@@ -2,21 +2,36 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :update, :destroy]
 
   # GET /posts
-  # GET /posts
+=begin 
+  def index
+    render json: all_posts.map { |post| post.as_json.merge(metadata: parse_metadata(post)) }
+  end
+=end
+
   def index
     user_id = current_user.id
     all_posts_with_likes = Post.includes(:likes).all
 
     likes_for_user = Like.where(user_id: user_id).pluck(:post_id).to_set
 
-    render json: all_posts_with_likes.map do |post|
-      post.as_json.merge(
+    posts_to_ui =  all_posts_with_likes.map do |post|
+      {
+        id: post.id,
+        post_id: post.post_id,
+        hash_id: post.hash_id,
+        source: post.source,
         metadata: parse_metadata(post),
+        filename: post.filename,
+        created_at: post.created_at,
+        updated_at: post.updated_at,
         likes_count: post.likes.size,
         liked_by_current_user: likes_for_user.include?(post.id)
-      )
+      }
     end
+
+    render json: posts_to_ui.as_json;
   end
+
 
   # GET /posts/:id
   def show

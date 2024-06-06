@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 export default function Page() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState<any[]>([]);
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     if (session?.id_token) {
@@ -19,8 +20,7 @@ export default function Page() {
     } else {
       console.log('No session available')
     }
-  }, [session]);
-  console.log('posts :', posts)
+  }, [session, refresh]);
 
   return (
     <div className='max-w-xl mx-auto border-r border-l min-h-screen'>
@@ -29,7 +29,7 @@ export default function Page() {
         <h2 className='text-lg sm:text-xl font-bold'>Fulcrum Engineering Hub</h2>
       </div>
       <Input />
-      <Feed posts={posts} />
+      <Feed posts={posts} updatePosts={() => setRefresh(!refresh)} />
     </div>
   );
 }
