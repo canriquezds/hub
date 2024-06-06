@@ -58,11 +58,11 @@ const Post: React.FC<PostProps> = ({ post, id }) => {
         </div>
       </div>
       <div className='flex-1'>
-        <h4 className='font-bold text-s mb-3 text-wrap'>{post?.metadata?.title}</h4>
+        <h4 className='font-bold text-sm mb-3 text-wrap'>{post?.metadata?.title}</h4>
         <Link href={'/posts/${id}'}>
             <p className='text-gray-800 text-sm my-3'>{post?.metadata?.summary}</p>
         </Link>
-        <IconActions/>
+        <IconActions id={id}/>
       </div>
     </div>
   );
