@@ -36,7 +36,7 @@ const Tooltip: React.FC<TooltipProps> = ({ text }) => {
   );
 };
 
-const GitHubAuthors: React.FC<Props> = ({ post }) => {
+export const GitHubAuthors: React.FC<Props> = ({ post }) => {
   return (
     <div className="flex space-x-2">
       {post.metadata?.authors?.map((author: string) => (

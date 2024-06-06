@@ -1,38 +1,42 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react'
+import { fetchAllPosts } from '../api/rails-app/api';
+import { GitHubAuthors } from './Post';
 
 export default function News() {
+  const { data: session } = useSession();
+  const [posts, setPosts] = useState<any[]>([]);
   const [news, setNews] = useState([])
   const [articleNumber, setArticleNum] = useState(3);
 
-  useEffect(() => {
-    fetch('https://saurav.tech/NewsAPI/top-headlines/category/business/us.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setNews(data.articles);
-      })}, [])
+useEffect(() => {
+  if (session?.id_token) {
+    fetchAllPosts(session.id_token)
+      .then(data => setPosts(data))
+      .catch(error => console.error('Error fetching all posts:', error));
+  } else {
+    console.log('No session available')
+  }
+}, [session]);
+
   return (
     <div className='text-gray-too space-y-3 bg-gray-100 rounded-xl pt-2'>
       <h4 className='font-bold text-xl px-4'>Top 10 Most Viewed Articles</h4>
-      {news.slice(0, articleNumber).map((article: any, index) => {
+      {posts.slice(0, articleNumber).map((post: any, index) => {
         return (
-          <div key={article.url}>
-            <a href={article.url} target='_blank'>
+          <div key={post.metadata.slug}>
+            <a href='#' target='_blank'>
               <div className='flex items-center justify-between px-4 py-2 space-x-1 hover:bg-gray-200 transition duration-200'>
                 <div className='space-y-0.5'>
-                  <h6 className='text-sm font-bold'>{article.title}</h6>
+                  <h6 className='text-sm font-bold'>{post.metadata.title}</h6>
                   <p className='text-xs font-medium text-gray-500'>
-                    {article.source.name}
+                    {post.source}
                   </p>
                 </div>
-                <img
-                  src={article.urlToImage}
-                  alt={article.title.slice(0, 10)} 
-                  width={70}
-                  className='rounded-xl'
-                />
+                <GitHubAuthors post={post}/>
               </div>
             </a>
           </div>
