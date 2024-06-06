@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import IconActions from './IconActions';
 import { HiDotsHorizontal } from 'react-icons/hi';
 
 
@@ -44,7 +45,7 @@ const GitHubAuthors: React.FC<Props> = ({ post }) => {
 
 const Post: React.FC<PostProps> = ({ post, id }) => {
   return (
-    <div className='flex-col p-3 border-b border-gray-200'>
+    <div className='flex-col p-3 border-b border-gray-200 hover:bg-gray-50'>
       <div className='flex items-center justify-between mb-4'>
         <GitHubAuthors post={post}/>
         <div className='flex items-center justify-between'>
@@ -61,6 +62,7 @@ const Post: React.FC<PostProps> = ({ post, id }) => {
         <Link href={'/posts/${id}'}>
             <p className='text-gray-800 text-sm my-3'>{post?.metadata?.summary}</p>
         </Link>
+        <IconActions/>
       </div>
     </div>
   );
