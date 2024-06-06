@@ -11,7 +11,6 @@ import { signInToBackend } from '../api/rails-app/api'
 
 
 export default function Sidebar() {
-  const [backendAlive, setBackendAlive] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
 
   useEffect(() => {
