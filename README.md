@@ -13,34 +13,89 @@ Fulcrum Engineering Hub aims to boost both writing and reading activities among 
 
 ### Getting Started
 
-### Steps to Run the Rails Application
+How to Start the Application Using Docker Compose
+This guide will help you set up and start the application using Docker Compose. The application consists of three main services: db, rails-api, and nextjs.
 
-1. **Build and Run Containers**:
-    ```sh
-    docker-compose up --build
-    ```
+Prerequisites
+Ensure you have the following installed:
 
-2. **Install Gems**:
-    ```sh
-    docker-compose run web bundle install
-    ```
+Docker
+Docker Compose
+Environment Variables
+Create a .env file at the root of your project directory with the following content:
 
-3. **Create and Migrate Database**:
-    ```sh
-    docker-compose run web rails db:create db:migrate
-    ```
+```
+dotenv
 
-4. **Access the Application**:
-    - The Rails server will be accessible at `http://localhost:4000`.
+# Shared environment variables
+GOOGLE_CLIENT_ID=<from google cloud project>
+GOOGLE_CLIENT_SECRET=<from google cloud project>
 
+# Next.js environment variables
+NEXTAUTH_SECRET=<random generated secret>
+NEXTAUTH_URL=http://localhost:3000
 
+# Client-side environment variables for Next.js
+NEXT_PUBLIC_FULCRUM_DOMAIN=churles.thefulcrum.team
+NEXT_PUBLIC_FULCRUM_API_TOKEN=<fulcrum app api token to run llm>
+NEXT_PUBLIC_RAILS_BACKEND=localhost:4000
+NEXT_PUBLIC_RAILS_BACKEND_PROBE=localhost:4000/up
+Replace the placeholder values with your actual credentials and tokens.
+```
 
-### Contributing
+### Steps to Start the Application
 
-We welcome contributions from the community! Please see our [contributing guidelines](link-to-contributing-guidelines) for more information on how to get involved.
+Clone the Repository
 
-### License
+Clone your project repository to your local machine.
 
-Fulcrum Engineering Hub is licensed under the [MIT License](link-to-license).
+Navigate to the Project Directory
 
-For more details, please refer to our [wiki](link-to-wiki).
+```
+sh
+
+cd your-project-directory
+```
+
+Create the .env File
+
+Create a .env file in the root of your project directory and add the environment variables as shown above.
+
+Build and Start the Docker Containers
+
+Run the following command to build and start the containers:
+
+```
+sh
+
+docker-compose up -d
+```
+
+Check the Status of the Containers
+
+You can check the status of the running containers using:
+
+```
+sh
+
+docker-compose ps
+```
+
+### Run Database Migrations and Seed the Database
+
+To run the database migrations and seed the database, execute:
+
+```
+sh
+
+docker-compose exec rails-api bash -c "bundle exec rails db:seed"
+```
+
+### Access the Application
+
+#### Rails API: 
+The Rails API should be accessible at `http://localhost:4000`
+
+#### Next.js Application: 
+
+The Next.js application should be accessible at `http://localhost:3000`
