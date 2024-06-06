@@ -36,7 +36,9 @@ useEffect(() => {
                     {post.source}
                   </p>
                 </div>
-                <GitHubAuthors post={post}/>
+                <div className='pl-5'>
+                  <GitHubAuthors post={post}/>
+                </div>
               </div>
             </a>
           </div>
