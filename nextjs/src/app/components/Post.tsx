@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import IconActions from './IconActions';
 import { HiDotsHorizontal } from 'react-icons/hi';
+import { RiRobot2Line } from "react-icons/ri";
+
 
 
 type Post = {
@@ -10,6 +12,7 @@ type Post = {
   metadata: Record<string, any>,
   liked_by_current_user: boolean
   creation_date: string;
+  created_at: string;
 };
 interface PostProps {
   post: Post;
@@ -84,8 +87,14 @@ const Post: React.FC<PostProps> = ({ post, id, updatePosts }) => {
             isLikedByUser={post.liked_by_current_user}
             refresh={updatePosts}
           />
-          <div className='text-xs italic text-gray-400'>
-            {formatCreationDate(post.creation_date)}
+          <div className='flex items-center'>
+            <RiRobot2Line
+              className='h-8 w-8 cursor-pointer rounded-full transition text-sky-600
+              duration-200 ease-in-out p-2 hover:text-sky-500 hover:bg-sky-100'
+            />
+            <div className='text-xs italic text-gray-400'>
+              @ {formatCreationDate(post.created_at)}
+            </div>
           </div>
         </div>
       </div>
